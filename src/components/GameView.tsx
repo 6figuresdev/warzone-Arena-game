@@ -24,6 +24,7 @@ export function GameView({ events, onReady, playing, hud, onResume }: Props) {
   const [muted, setMuted] = useState(false)
   const [api, setApi] = useState<TouchApi | null>(null)
   const [mapInfo, setMapInfo] = useState<MapInfo | null>(null)
+  const [fatal, setFatal] = useState<string | null>(null)
   const [touchPref, setTouchPref] = useState<boolean | null>(() => {
     const v = localStorage.getItem('arc.touch')
     return v === null ? null : v === '1'
@@ -38,15 +39,23 @@ export function GameView({ events, onReady, playing, hud, onResume }: Props) {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const engine = new GameEngine(canvas, {
-      onHud: (s) => eventsRef.current.onHud(s),
-      onEnd: (t, score) => eventsRef.current.onEnd(t, score),
-      onStage: (r) => eventsRef.current.onStage(r),
-    })
+    let engine: GameEngine
+    try {
+      engine = new GameEngine(canvas, {
+        onHud: (s) => eventsRef.current.onHud(s),
+        onEnd: (t, score) => eventsRef.current.onEnd(t, score),
+        onStage: (r) => eventsRef.current.onStage(r),
+        onError: (m) => setFatal(m),
+      })
+    } catch (err) {
+      console.error(err)
+      queueMicrotask(() => setFatal('This browser or device cannot run 3D graphics (WebGL). Try Chrome, Edge or Firefox on a computer with hardware acceleration turned on.'))
+      return
+    }
     engineRef.current = engine
     if (new URLSearchParams(location.search).has('debug')) (window as unknown as { __arc: unknown }).__arc = engine.debugApi()
     readyRef.current(engine)
-    setApi(engine.touchApi())
+    queueMicrotask(() => setApi(engine.touchApi()))
   return () => {
       engine.dispose()
       engineRef.current = null
@@ -77,6 +86,17 @@ export function GameView({ events, onReady, playing, hud, onResume }: Props) {
   return (
     <div className="absolute inset-0 bg-black">
       <canvas ref={canvasRef} className="block h-full w-full" style={{ filter: 'contrast(1.08) saturate(1.12)' }} />
+      {fatal && (
+        <div className="absolute inset-0 z-50 grid place-items-center bg-[#0b1626]/95 p-6 text-center">
+          <div className="glass max-w-md rounded-3xl p-7">
+            <p className="label text-[var(--danger)]">Cannot start the game</p>
+            <p className="mt-2 text-pretty text-[var(--ink-2)]">{fatal}</p>
+            <button type="button" className="btn-primary mt-5" onClick={() => location.reload()}>
+              Reload
+            </button>
+          </div>
+        </div>
+      )}
       {playing && hud && <Hud hud={hud} map={mapInfo} />}
       {playing && hud && hud.locked && !shopOpen && showTouch && api && <TouchControls api={api} />}
       {shopOpen && hud && (

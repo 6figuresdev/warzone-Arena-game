@@ -24,6 +24,8 @@ export interface EngineEvents {
   onHud: (s: HudState) => void
   onEnd: (t: RunTelemetry, score: number) => void
   onStage: (r: StageResult) => void
+  /** Called when the game cannot start, for example when its model files fail to download. */
+  onError?: (message: string) => void
 }
 
 /** Add ?lowfx to the URL to turn off antialiasing and shadows on weak machines. */
@@ -98,6 +100,7 @@ export class GameEngine {
   private securing = 0
   private ambushDone = false
   private mapOpen = false
+  private assetsError: string | null = null
   private mapCloseT = 0
   private landDip = 0
   private frameMs = 16
@@ -128,6 +131,7 @@ export class GameEngine {
     this.viewmodel = new ViewMotion()
     this.assets = loadCharacters().catch((err) => {
       console.error('Could not load character models', err)
+      this.assetsError = 'The game files could not be downloaded. Check your connection and reload the page.'
     })
     this.playerModel = new PlayerModel(this.scene)
     this.effects = new Effects(this.scene)
@@ -165,6 +169,10 @@ export class GameEngine {
     if (mapId) this.setMap(mapId)
     this.input.requestLock()
     void this.assets.then(() => {
+      if (this.assetsError) {
+        this.events.onError?.(this.assetsError)
+        return
+      }
       this.resetRun()
       this.sfx.startAmbient()
     })
@@ -180,6 +188,10 @@ export class GameEngine {
     this.setMap(def.map)
     this.input.requestLock()
     void this.assets.then(() => {
+      if (this.assetsError) {
+        this.events.onError?.(this.assetsError)
+        return
+      }
       this.resetRun()
       this.sfx.startAmbient()
     })

@@ -55,3 +55,10 @@ Add `?lowfx` to the URL to turn off antialiasing and shadows on weak machines.
 
 - Soldier model: Grab3D "Soldier" (CC0), simplified and re-textured at 1K for the web.
 - Textures and HDRI skies: Poly Haven (CC0).
+
+## Deploying
+
+The game is a static Vite site: build command `bun run build` (or `vite build`), output folder `dist`. The campaign and free practice work on any static host. Ranked rounds also need:
+
+- `VITE_ARENA_ADDRESS` set in the host's environment variables (the deployed arena contract address).
+- The referee service (`bun run server`) running somewhere reachable and the host forwarding `/api/*` to it. Without it, ranked rounds show a clear message and everything else still works.

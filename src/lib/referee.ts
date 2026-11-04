@@ -22,7 +22,10 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   } catch {
     throw new Error('The referee service is unreachable. Try again in a moment.')
   }
-  const data = (await res.json().catch(() => ({}))) as { error?: string } & T
+  const data = (await res.json().catch(() => null)) as ({ error?: string } & T) | null
+  if (!data) {
+    throw new Error('Ranked rounds need the referee service, which is not running for this site. Free practice and the campaign work without it.')
+  }
   if (!res.ok) throw new Error(data.error ?? 'The referee rejected that request.')
   return data
 }
