@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { assetUrl } from './assets'
 
 /** `?safe` swaps PBR materials for simple lit ones. Used for screenshots on software renderers. */
 export const SAFE = typeof location !== 'undefined' && new URLSearchParams(location.search).has('safe')
@@ -17,7 +18,7 @@ export function loadTex(name: string, srgb: boolean, repeat: [number, number] = 
   const key = `${name}:${srgb}`
   let t = cache.get(key)
   if (!t) {
-    t = loader.load(`/assets/tex/${name}.jpg`)
+    t = loader.load(assetUrl(`tex/${name}.jpg`))
     t.wrapS = t.wrapT = THREE.RepeatWrapping
     t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace
     t.anisotropy = 8

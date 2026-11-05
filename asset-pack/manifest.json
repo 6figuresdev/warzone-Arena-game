@@ -1,0 +1,189 @@
+{
+  "note": "Text copies of public/assets, split into small parts so they survive tools that skip binary or large files. Run: node tools/restore-assets.mjs",
+  "files": [
+    {
+      "path": "hdr/kiara_1_dawn.hdr",
+      "size": 1475077,
+      "sha256": "ee70fb8c8fb3e34566802191d83b299e179ecc392b97639e6c750f66e161c8e2",
+      "parts": [
+        "hdr__kiara_1_dawn.hdr.part01.txt",
+        "hdr__kiara_1_dawn.hdr.part02.txt",
+        "hdr__kiara_1_dawn.hdr.part03.txt",
+        "hdr__kiara_1_dawn.hdr.part04.txt",
+        "hdr__kiara_1_dawn.hdr.part05.txt"
+      ]
+    },
+    {
+      "path": "hdr/kloppenheim_06_puresky.hdr",
+      "size": 1173154,
+      "sha256": "206c67e3a1b992282821cf06662bdd69bbb4915c1c4444a66338a40d6a7d4e34",
+      "parts": [
+        "hdr__kloppenheim_06_puresky.hdr.part01.txt",
+        "hdr__kloppenheim_06_puresky.hdr.part02.txt",
+        "hdr__kloppenheim_06_puresky.hdr.part03.txt",
+        "hdr__kloppenheim_06_puresky.hdr.part04.txt"
+      ]
+    },
+    {
+      "path": "hdr/qwantani_dusk_2_puresky.hdr",
+      "size": 1166018,
+      "sha256": "56dc9cb681f2641c08377e20e83fa5e4865fd900bcce26a15a1883580139b5e2",
+      "parts": [
+        "hdr__qwantani_dusk_2_puresky.hdr.part01.txt",
+        "hdr__qwantani_dusk_2_puresky.hdr.part02.txt",
+        "hdr__qwantani_dusk_2_puresky.hdr.part03.txt",
+        "hdr__qwantani_dusk_2_puresky.hdr.part04.txt"
+      ]
+    },
+    {
+      "path": "models/operator.glb",
+      "size": 1697628,
+      "sha256": "12dd2190f375a990182206e7c1a79bdf879d7d1f3dd03e90ee1524d30f700533",
+      "parts": [
+        "models__operator.glb.part01.txt",
+        "models__operator.glb.part02.txt",
+        "models__operator.glb.part03.txt",
+        "models__operator.glb.part04.txt",
+        "models__operator.glb.part05.txt",
+        "models__operator.glb.part06.txt"
+      ]
+    },
+    {
+      "path": "tex/asphalt_02_diff.jpg",
+      "size": 731707,
+      "sha256": "1aa5ce99f58a625c71d48cfc3e68b65ca85ccb00f39e045c0a928608a0ea25ed",
+      "parts": [
+        "tex__asphalt_02_diff.jpg.part01.txt",
+        "tex__asphalt_02_diff.jpg.part02.txt",
+        "tex__asphalt_02_diff.jpg.part03.txt"
+      ]
+    },
+    {
+      "path": "tex/asphalt_02_nor_gl.jpg",
+      "size": 1240122,
+      "sha256": "42a1c381b53204e83a982db2864479a30bc127bbdeebb1006f8ee51bff099df3",
+      "parts": [
+        "tex__asphalt_02_nor_gl.jpg.part01.txt",
+        "tex__asphalt_02_nor_gl.jpg.part02.txt",
+        "tex__asphalt_02_nor_gl.jpg.part03.txt",
+        "tex__asphalt_02_nor_gl.jpg.part04.txt",
+        "tex__asphalt_02_nor_gl.jpg.part05.txt"
+      ]
+    },
+    {
+      "path": "tex/brick_wall_02_diff.jpg",
+      "size": 1032279,
+      "sha256": "e80aad85ff49b70af5e554d28adf1009adca409fe5d89c2647595254f972df9c",
+      "parts": [
+        "tex__brick_wall_02_diff.jpg.part01.txt",
+        "tex__brick_wall_02_diff.jpg.part02.txt",
+        "tex__brick_wall_02_diff.jpg.part03.txt",
+        "tex__brick_wall_02_diff.jpg.part04.txt"
+      ]
+    },
+    {
+      "path": "tex/brick_wall_02_nor_gl.jpg",
+      "size": 1121130,
+      "sha256": "ee1d7b11786a6c26245c02d6041aef0cda03431fc06a7509111575ce12bf422c",
+      "parts": [
+        "tex__brick_wall_02_nor_gl.jpg.part01.txt",
+        "tex__brick_wall_02_nor_gl.jpg.part02.txt",
+        "tex__brick_wall_02_nor_gl.jpg.part03.txt",
+        "tex__brick_wall_02_nor_gl.jpg.part04.txt"
+      ]
+    },
+    {
+      "path": "tex/concrete_floor_worn_001_diff.jpg",
+      "size": 118806,
+      "sha256": "6e40c0fc908f4d66431836f5abe203f3a4eb064e88824378a91a46a26e2f464c",
+      "parts": [
+        "tex__concrete_floor_worn_001_diff.jpg.part01.txt"
+      ]
+    },
+    {
+      "path": "tex/concrete_floor_worn_001_nor_gl.jpg",
+      "size": 110906,
+      "sha256": "523bd94a1be5dd2f11c2ae2b7d7c77445cf5bd9e41604db515a7c8364dcba067",
+      "parts": [
+        "tex__concrete_floor_worn_001_nor_gl.jpg.part01.txt"
+      ]
+    },
+    {
+      "path": "tex/concrete_wall_008_diff.jpg",
+      "size": 623051,
+      "sha256": "a203166d280d3cfc6a91bbc9ffdae406eb9555b4a4f658cd92619063eb17c147",
+      "parts": [
+        "tex__concrete_wall_008_diff.jpg.part01.txt",
+        "tex__concrete_wall_008_diff.jpg.part02.txt",
+        "tex__concrete_wall_008_diff.jpg.part03.txt"
+      ]
+    },
+    {
+      "path": "tex/concrete_wall_008_nor_gl.jpg",
+      "size": 511519,
+      "sha256": "83cd3fa2c7cbf4c81402386065daf8fa6f72e1f1f77e02ccb1eedb28496909ae",
+      "parts": [
+        "tex__concrete_wall_008_nor_gl.jpg.part01.txt",
+        "tex__concrete_wall_008_nor_gl.jpg.part02.txt"
+      ]
+    },
+    {
+      "path": "tex/corrugated_iron_02_diff.jpg",
+      "size": 568492,
+      "sha256": "7a7b43099d015c1b08ebb175da5965caeae44b86de65a727b3fffa20a7c69a93",
+      "parts": [
+        "tex__corrugated_iron_02_diff.jpg.part01.txt",
+        "tex__corrugated_iron_02_diff.jpg.part02.txt"
+      ]
+    },
+    {
+      "path": "tex/corrugated_iron_02_nor_gl.jpg",
+      "size": 489773,
+      "sha256": "9743c93668689c36a67e9c4dc8d6a0870fe91202f82dcdaf70ddc330c12f9ecb",
+      "parts": [
+        "tex__corrugated_iron_02_nor_gl.jpg.part01.txt",
+        "tex__corrugated_iron_02_nor_gl.jpg.part02.txt"
+      ]
+    },
+    {
+      "path": "tex/rusty_metal_02_diff.jpg",
+      "size": 564932,
+      "sha256": "adaf094391518b6afe787a123942110aa88ef521c844f970b124420f5ed5d3d9",
+      "parts": [
+        "tex__rusty_metal_02_diff.jpg.part01.txt",
+        "tex__rusty_metal_02_diff.jpg.part02.txt"
+      ]
+    },
+    {
+      "path": "tex/rusty_metal_02_nor_gl.jpg",
+      "size": 403156,
+      "sha256": "995197a62cac6fbb000e6e6591a3330a3b77ef069c4ac58f505b586b9bdbd97b",
+      "parts": [
+        "tex__rusty_metal_02_nor_gl.jpg.part01.txt",
+        "tex__rusty_metal_02_nor_gl.jpg.part02.txt"
+      ]
+    },
+    {
+      "path": "tex/sandy_gravel_02_diff.jpg",
+      "size": 947222,
+      "sha256": "c9d143db07db9a6be2eba285fae961d868520422ee5fa4d38d55da24f9968d51",
+      "parts": [
+        "tex__sandy_gravel_02_diff.jpg.part01.txt",
+        "tex__sandy_gravel_02_diff.jpg.part02.txt",
+        "tex__sandy_gravel_02_diff.jpg.part03.txt",
+        "tex__sandy_gravel_02_diff.jpg.part04.txt"
+      ]
+    },
+    {
+      "path": "tex/sandy_gravel_02_nor_gl.jpg",
+      "size": 1185078,
+      "sha256": "36db1d118fb74885991ada4a3028f4fe346c65a8e3c75edea123c08856068e41",
+      "parts": [
+        "tex__sandy_gravel_02_nor_gl.jpg.part01.txt",
+        "tex__sandy_gravel_02_nor_gl.jpg.part02.txt",
+        "tex__sandy_gravel_02_nor_gl.jpg.part03.txt",
+        "tex__sandy_gravel_02_nor_gl.jpg.part04.txt"
+      ]
+    }
+  ]
+}

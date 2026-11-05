@@ -62,3 +62,5 @@ The game is a static Vite site: build command `bun run build` (or `vite build`),
 
 - `VITE_ARENA_ADDRESS` set in the host's environment variables (the deployed arena contract address).
 - The referee service (`bun run server`) running somewhere reachable and the host forwarding `/api/*` to it. Without it, ranked rounds show a clear message and everything else still works.
+
+The 3D soldier model, textures and sky images live in `public/assets/`. Text copies, split into small parts, are kept in `asset-pack/`, and the build rebuilds any missing binary file from them (`node tools/restore-assets.mjs`), so committing `asset-pack/` is enough even if binary files get skipped. The build stops with a list if anything is still missing.

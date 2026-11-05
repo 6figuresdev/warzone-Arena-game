@@ -3,14 +3,26 @@ import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { SAFE, pbr } from './mats'
+import { MODEL_PATH, MODEL_URL } from './assets'
 
 let source: GLTF | null = null
 let loading: Promise<void> | null = null
 let baseHeight = 1.8
 
+/** Downloads the soldier model and checks it really is a GLB (a missing file often comes back as an HTML page). */
+async function fetchModel(): Promise<GLTF> {
+  const res = await fetch(MODEL_URL)
+  if (!res.ok) throw new Error(`Soldier model not found at ${MODEL_URL} (HTTP ${res.status}). Commit ${MODEL_PATH} to your repository.`)
+  const buf = await res.arrayBuffer()
+  if (new TextDecoder().decode(buf.slice(0, 4)) !== 'glTF') {
+    throw new Error(`${MODEL_URL} is not a valid model file. Commit ${MODEL_PATH} to your repository.`)
+  }
+  return new GLTFLoader().parseAsync(buf, '')
+}
+
 export function loadCharacters(): Promise<void> {
   if (source) return Promise.resolve()
-  loading ??= new GLTFLoader().loadAsync('/assets/models/operator.glb').then((g) => {
+  loading ??= fetchModel().then((g) => {
     source = g
     g.scene.updateMatrixWorld(true)
     const box = new THREE.Box3().setFromObject(g.scene)

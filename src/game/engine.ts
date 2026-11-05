@@ -131,7 +131,7 @@ export class GameEngine {
     this.viewmodel = new ViewMotion()
     this.assets = loadCharacters().catch((err) => {
       console.error('Could not load character models', err)
-      this.assetsError = 'The game files could not be downloaded. Check your connection and reload the page.'
+      this.assetsError = `${err instanceof Error ? err.message : 'The game files could not be downloaded.'} Then redeploy and reload the page.`
     })
     this.playerModel = new PlayerModel(this.scene)
     this.effects = new Effects(this.scene)

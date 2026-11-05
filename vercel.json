@@ -1,6 +1,6 @@
 {
   "framework": "vite",
-  "buildCommand": "vite build",
+  "buildCommand": "node tools/restore-assets.mjs && node tools/check-assets.mjs && vite build",
   "outputDirectory": "dist",
   "headers": [
     {

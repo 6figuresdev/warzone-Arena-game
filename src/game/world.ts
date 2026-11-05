@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { assetUrl } from './assets'
 import { pbr } from './mats'
 import { ARENA } from './config'
 import { boxFrom, type Box } from './collision'
@@ -34,7 +35,7 @@ function softDot() {
 /** Streams in an HDRI: real sky behind the arena, image-based light on every surface, and a sun that matches. */
 async function loadSky(scene: THREE.Scene, sun: THREE.DirectionalLight, hemi: THREE.HemisphereLight, name: string, hemiPower: number, fallbackSun: [number, number, number], bag: { dispose: () => void }[]) {
   try {
-    const tex = await new RGBELoader().setDataType(THREE.FloatType).loadAsync(`/assets/hdr/${name}.hdr`)
+    const tex = await new RGBELoader().setDataType(THREE.FloatType).loadAsync(assetUrl(`hdr/${name}.hdr`))
     tex.mapping = THREE.EquirectangularReflectionMapping
     const img = tex.image as { data: Float32Array; width: number; height: number }
     let best = 0
