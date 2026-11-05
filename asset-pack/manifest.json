@@ -36,6 +36,15 @@
       ]
     },
     {
+      "path": "models/hand.glb",
+      "size": 506696,
+      "sha256": "4e9a6219f4147f80fbd29cd4c349e1ae1d59d436d81822a0da8247984cb2d4e9",
+      "parts": [
+        "models__hand.glb.part01.txt",
+        "models__hand.glb.part02.txt"
+      ]
+    },
+    {
       "path": "models/operator.glb",
       "size": 1697628,
       "sha256": "12dd2190f375a990182206e7c1a79bdf879d7d1f3dd03e90ee1524d30f700533",

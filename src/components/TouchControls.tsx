@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode, type PointerEvent as RPointerEvent } from 'react'
-import { ArrowUpFromLine, Bomb, RotateCcw, RotateCw, Undo2, ChevronsUp, Crosshair, Eye, Flame, Map as MapIcon, Menu, RefreshCw, Repeat, ShoppingCart, Shrink, Users, Zap } from 'lucide-react'
+import { Bomb, RotateCcw, RotateCw, Undo2, ChevronsUp, Crosshair, Eye, Flame, Map as MapIcon, Menu, RefreshCw, Repeat, ShoppingCart, Shrink, Users, Zap } from 'lucide-react'
 import type { GameEngine } from '@/game/engine'
 
 export type TouchApi = ReturnType<GameEngine['touchApi']>
@@ -53,7 +53,6 @@ export function TouchControls({ api }: { api: TouchApi }) {
   const [dragged, setDragged] = useState(false)
   const [running, setRunning] = useState(false)
   const [more, setMore] = useState(false)
-  const [moved, setMoved] = useState(false)
   const lookPt = useRef<{ id: number; x: number; y: number } | null>(null)
   const stickId = useRef<number | null>(null)
 
@@ -114,7 +113,6 @@ export function TouchControls({ api }: { api: TouchApi }) {
           e.currentTarget.setPointerCapture(e.pointerId)
           stickId.current = e.pointerId
           setStick({ ox: e.clientX, oy: e.clientY, x: 0, y: 0 })
-          setMoved(true)
         }}
         onPointerMove={moveStick}
         onPointerUp={endStick}
@@ -128,14 +126,7 @@ export function TouchControls({ api }: { api: TouchApi }) {
             style={{ transform: `translate(calc(-50% + ${stick.x}px), calc(-50% + ${stick.y}px))` }}
           />
         </div>
-      ) : (
-        !moved && (
-          <div className="absolute bottom-[11rem] left-8 flex h-20 w-20 flex-col items-center justify-center rounded-full border border-dashed border-white/30 bg-white/5 text-white/70">
-            <ArrowUpFromLine size={14} />
-            <span className="mono mt-0.5 text-[8px] tracking-widest">MOVE</span>
-          </div>
-        )
-      )}
+      ) : null}
 
       {/* Combat cluster under the right thumb. */}
       <div className="absolute bottom-[10.5rem] right-3 h-[132px] w-[150px] opacity-85">

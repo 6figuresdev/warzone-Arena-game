@@ -100,6 +100,7 @@ export class GameEngine {
   private securing = 0
   private ambushDone = false
   private mapOpen = false
+  private dbgGunCam: [number, number, number] | null = null
   private assetsError: string | null = null
   private mapCloseT = 0
   private landDip = 0
@@ -345,6 +346,13 @@ export class GameEngine {
       if (this.phase !== 'playing') this.playerModel.hide()
     }
     this.effects.update(dt)
+    if (this.dbgGunCam) {
+      const m = new THREE.Vector3()
+      this.playerModel.muzzleWorld(m)
+      m.add(new THREE.Vector3(0, -0.05, 0.3))
+      this.camera.position.set(m.x + this.dbgGunCam[0], m.y + this.dbgGunCam[1], m.z + this.dbgGunCam[2])
+      this.camera.lookAt(m)
+    }
     this.renderer.render(this.scene, this.camera)
     this.hudT -= dt
     if (this.hudT <= 0) this.emitHud(false)
@@ -1023,7 +1031,14 @@ export class GameEngine {
         .filter((e) => !e.dead && (!e.hidden || this.uavT > 0) && Math.hypot(e.x - p.x, e.z - p.z) < (this.uavT > 0 ? UAV_RANGE : 46))
         .map((e) => ({ x: e.x, z: e.z })),
     }
+    const inp = this.input
     this.events.onHud({
+      moveKeys: {
+        w: inp.down('KeyW') || inp.moveY > 0.35,
+        a: inp.down('KeyA') || inp.moveX < -0.35,
+        s: inp.down('KeyS') || inp.moveY < -0.35,
+        d: inp.down('KeyD') || inp.moveX > 0.35,
+      },
       nav,
       mapOpen: this.mapOpen,
       health: Math.ceil(p.health),
@@ -1103,6 +1118,9 @@ export class GameEngine {
         }
       },
       touch: () => this.touchApi(),
+      gunCam: (off: [number, number, number] | null) => {
+        this.dbgGunCam = off
+      },
       killAll: () => {
         this.queue = 0
         for (const e of this.enemies) if (!e.dead && e.damage(99999)) this.onSquadKill(e)

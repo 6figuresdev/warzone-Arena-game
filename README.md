@@ -5,6 +5,7 @@ A first-person tactical shooter that runs in the browser. Survive escalating wav
 
 ## Features
 
+- First person shows real bare human hands on the weapon. A move pad (click or tap and hold the arrows, or use W A S D) works the same on laptops and phones, and lights up when the keyboard is detected.
 - Ten-stage campaign. Each stage is a heist: beat the thieves wave by wave, run to the glowing money case and hold it to secure the stolen funds. Stage 1 recovers $500, stage 2 $1,000, and so on up to $5,000 in stage 10, where the campaign ends. Progress, unlocked stages and your weapons are saved in the browser. Campaign funds are in-game only. A round minimap shows the USDC money-bag pin, your squad and the thieves, and M opens a full tactical map.
 - Wave-based combat in third person (switchable to first person) against large groups of armed soldiers, with a two-man AI squad that talks over the radio, spots contacts and fights beside you. Hold or follow orders with a key press.
 - Three battlefields: a burnt-out town, a container port and a desert outpost, with wrecked cars, ruined buildings, smoke, and enemies who ambush from behind cover.
@@ -63,4 +64,4 @@ The game is a static Vite site: build command `bun run build` (or `vite build`),
 - `VITE_ARENA_ADDRESS` set in the host's environment variables (the deployed arena contract address).
 - The referee service (`bun run server`) running somewhere reachable and the host forwarding `/api/*` to it. Without it, ranked rounds show a clear message and everything else still works.
 
-The 3D soldier model, textures and sky images live in `public/assets/`. Text copies, split into small parts, are kept in `asset-pack/`, and the build rebuilds any missing binary file from them (`node tools/restore-assets.mjs`), so committing `asset-pack/` is enough even if binary files get skipped. The build stops with a list if anything is still missing.
+The 3D soldier model, the first-person human hand model (CC0, based on MakeHuman), textures and sky images live in `public/assets/`. Text copies, split into small parts, are kept in `asset-pack/`, and the build rebuilds any missing binary file from them (`node tools/restore-assets.mjs`), so committing `asset-pack/` is enough even if binary files get skipped. The build stops with a list if anything is still missing.

@@ -3,6 +3,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs'
 
 const required = [
   'public/assets/models/operator.glb',
+  'public/assets/models/hand.glb',
   'public/assets/hdr/kiara_1_dawn.hdr',
   'public/assets/hdr/kloppenheim_06_puresky.hdr',
   'public/assets/hdr/qwantani_dusk_2_puresky.hdr',

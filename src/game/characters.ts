@@ -4,6 +4,7 @@ import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { SAFE, pbr } from './mats'
 import { MODEL_PATH, MODEL_URL } from './assets'
+import { HAND_POSE, RealHand, loadHandModel } from './hands'
 
 let source: GLTF | null = null
 let loading: Promise<void> | null = null
@@ -22,7 +23,7 @@ async function fetchModel(): Promise<GLTF> {
 
 export function loadCharacters(): Promise<void> {
   if (source) return Promise.resolve()
-  loading ??= fetchModel().then((g) => {
+  loading ??= Promise.all([fetchModel(), loadHandModel()]).then(([g]) => {
     source = g
     g.scene.updateMatrixWorld(true)
     const box = new THREE.Box3().setFromObject(g.scene)
@@ -159,6 +160,8 @@ export interface Human {
   /** Hold the weapon at a world pose instead of the default carry position. Pass null to release. */
   placeGun: (pos: THREE.Vector3 | null, quat?: THREE.Quaternion) => void
   setHeadHidden: (hidden: boolean) => void
+  /** First person: show bare human hands on the weapon and hide the gloved ones. */
+  setRealHands: (on: boolean) => void
   /** Turns the weapon away from where the body faces (third person strafing). */
   setAimYaw: (yaw: number) => void
   setShadows: (on: boolean) => void
@@ -292,6 +295,8 @@ export function createHuman(opts: HumanOptions): Human {
   let worldPos: THREE.Vector3 | null = null
   let worldQuat: THREE.Quaternion | null = null
   let headHidden = false
+  let hands: { r: RealHand; l: RealHand } | null = null
+  let handsOn = false
   let aimYaw = 0
   let shadowsOn = true
   const headBones = [bone('Head'), bone('neck')]
@@ -336,15 +341,34 @@ export function createHuman(opts: HumanOptions): Human {
       gunRoot.rotation.set(-aim, aimYaw, 0, 'YXZ')
     }
     for (const hb of headBones) hb?.scale.setScalar(headHidden ? 0.001 : 1)
+    if (hands) {
+      hands.r.root.visible = handsOn
+      hands.l.root.visible = handsOn
+    }
+    for (const hb of [arms.rHand, arms.lHand]) hb?.scale.setScalar(handsOn ? 0.001 : 1)
     group.updateMatrixWorld(true)
     if (arms.rUpper && arms.rLower && arms.rHand && arms.lUpper && arms.lLower && arms.lHand) {
       gunRoot.getWorldQuaternion(gq)
-      gunRoot.localToWorld(rTarget.set(0.005, -0.045, 0.015))
-      gunRoot.localToWorld(lTarget.set(0.02, -0.01, FOREGRIP_Z[kind]))
+      if (handsOn && hands) {
+        hands.r.setPose(HAND_POSE.right)
+        hands.l.setPose({ ...HAND_POSE.left, pos: [HAND_POSE.left.pos[0], HAND_POSE.left.pos[1], HAND_POSE.left.pos[2] + FOREGRIP_Z[kind] - 0.36] })
+        gunRoot.localToWorld(rTarget.set(...HAND_POSE.right.pos))
+        gunRoot.localToWorld(lTarget.set(HAND_POSE.left.pos[0], HAND_POSE.left.pos[1], HAND_POSE.left.pos[2] + FOREGRIP_Z[kind] - 0.36))
+      } else {
+        gunRoot.localToWorld(rTarget.set(0.005, -0.045, 0.015))
+        gunRoot.localToWorld(lTarget.set(0.02, -0.01, FOREGRIP_Z[kind]))
+      }
       rPole.set(-0.5, -1, -0.4).applyQuaternion(group.getWorldQuaternion(new THREE.Quaternion()))
       lPole.set(0.4, -1, -0.3).applyQuaternion(group.getWorldQuaternion(new THREE.Quaternion()))
       solveArm(arms.rUpper, arms.rLower, arms.rHand, rTarget, rPole)
       solveArm(arms.lUpper, arms.lLower, arms.lHand, lTarget, lPole)
+      if (handsOn && hands) {
+        // Seat the bare hands exactly where the sleeves end, so wrist and forearm join up.
+        gunRoot.worldToLocal(arms.rHand.getWorldPosition(_a))
+        hands.r.root.position.copy(_a)
+        gunRoot.worldToLocal(arms.lHand.getWorldPosition(_a))
+        hands.l.root.position.copy(_a)
+      }
     }
   }
 
@@ -368,6 +392,13 @@ export function createHuman(opts: HumanOptions): Human {
     placeGun: (pos, quat) => {
       worldPos = pos ? pos.clone() : null
       worldQuat = pos && quat ? quat.clone() : null
+    },
+    setRealHands: (on) => {
+      handsOn = on
+      if (on && !hands) {
+        hands = { r: new RealHand(false), l: new RealHand(true) }
+        gunRoot.add(hands.r.root, hands.l.root)
+      }
     },
     setHeadHidden: (h) => {
       headHidden = h

@@ -6,11 +6,7 @@ dist
 recovery_file*
 contracts/out
 contracts/cache
-.env
-.env.*
-node_modules/
-.env
-.env.*
-node_modules/
+game-assets.zip
+models-and-hdr.zip
 console.jsonl
 traces.jsonl

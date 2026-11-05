@@ -81,7 +81,7 @@ export class PlayerModel {
     const sin = Math.sin(p.yaw)
     const cos = Math.cos(p.yaw)
     // In first person, shift the body forward so the shoulders sit close to the weapon.
-    const shift = fps ? -0.1 : 0
+    const shift = fps ? -0.04 : 0
     h.group.position.set(p.x - sin * shift, p.y, p.z - cos * shift)
     const aimYaw = p.yaw + Math.PI
     let facing = aimYaw
@@ -104,6 +104,7 @@ export class PlayerModel {
     h.setSpeed(onGround ? p.speed : 0)
     h.setAim(p.pitch)
     h.setHeadHidden(fps)
+    h.setRealHands(fps)
     if (fps) {
       camera.updateMatrixWorld(true)
       this.tmpPos.copy(motion.pos)

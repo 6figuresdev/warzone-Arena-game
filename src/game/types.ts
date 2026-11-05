@@ -56,6 +56,8 @@ export interface NavHud {
 }
 
 export interface HudState {
+  /** Which movement inputs the game currently hears, so the on-screen pad can light up. */
+  moveKeys: { w: boolean; a: boolean; s: boolean; d: boolean }
   nav: NavHud
   mapOpen: boolean
   mode: 'endless' | 'campaign'

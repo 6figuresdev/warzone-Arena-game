@@ -7,6 +7,7 @@ import type { MapInfo } from './mapDraw'
 import { ShopOverlay } from './ShopOverlay'
 import { ControlsGuide } from './ControlsGuide'
 import { TouchControls, type TouchApi } from './TouchControls'
+import { MovePad } from './MovePad'
 
 interface Props {
   events: EngineEvents
@@ -25,6 +26,8 @@ export function GameView({ events, onReady, playing, hud, onResume }: Props) {
   const [api, setApi] = useState<TouchApi | null>(null)
   const [mapInfo, setMapInfo] = useState<MapInfo | null>(null)
   const [fatal, setFatal] = useState<string | null>(null)
+  const [focused, setFocused] = useState(true)
+  const [sprintOn, setSprintOn] = useState(false)
   const [touchPref, setTouchPref] = useState<boolean | null>(() => {
     const v = localStorage.getItem('arc.touch')
     return v === null ? null : v === '1'
@@ -78,6 +81,11 @@ export function GameView({ events, onReady, playing, hud, onResume }: Props) {
   const shopOpen = playing && hud !== null && hud.shopOpen
   const paused = playing && hud !== null && !hud.locked && !shopOpen
 
+  useEffect(() => {
+    const id = window.setInterval(() => setFocused(document.hasFocus()), 600)
+    return () => window.clearInterval(id)
+  }, [])
+
   const mapName = hud?.mapName
   useEffect(() => {
     if (mapName) setMapInfo(engineRef.current?.mapInfo() ?? null)
@@ -99,6 +107,30 @@ export function GameView({ events, onReady, playing, hud, onResume }: Props) {
       )}
       {playing && hud && <Hud hud={hud} map={mapInfo} />}
       {playing && hud && hud.locked && !shopOpen && showTouch && api && <TouchControls api={api} />}
+      {playing && hud && hud.locked && !shopOpen && api && (
+        <MovePad
+          hud={hud}
+          api={api}
+          sprint={sprintOn}
+          onSprint={() => {
+            const next = !sprintOn
+            setSprintOn(next)
+            api.sprint(next)
+          }}
+        />
+      )}
+      {playing && hud && hud.locked && !shopOpen && !focused && (
+        <button
+          type="button"
+          className="pointer-events-auto absolute left-1/2 top-24 z-40 -translate-x-1/2 rounded-full border border-[var(--amber)] bg-[#0b1626]/90 px-4 py-2 text-sm font-semibold text-[var(--amber)]"
+          onClick={() => {
+            window.focus()
+            canvasRef.current?.focus()
+          }}
+        >
+          Click here to turn on the keyboard
+        </button>
+      )}
       {shopOpen && hud && (
         <ShopOverlay hud={hud} onBuy={(id) => engineRef.current?.buy(id) ?? 'Unavailable'} onClose={onResume} />
       )}

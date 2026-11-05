@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import type { WeaponId } from './types'
 
 /** Where each weapon sits in front of the camera when held at the hip and when aiming down sights. */
-const HIP = new THREE.Vector3(0.23, -0.23, -0.62)
+const HIP = new THREE.Vector3(0.2, -0.22, -0.5)
 const ADS_Y: Record<WeaponId, number> = { ar: -0.158, smg: -0.158, lmg: -0.158, shotgun: -0.158, sniper: -0.185, pistol: -0.095 }
 const ADS_Z: Record<WeaponId, number> = { ar: -0.36, smg: -0.32, lmg: -0.36, shotgun: -0.36, sniper: -0.34, pistol: -0.38 }
 
